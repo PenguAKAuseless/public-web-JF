@@ -3,7 +3,7 @@ import { Facebook, Github, Mail, MapPin } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-navy text-primary-foreground py-16 px-6">
+    <footer id="support" className="bg-navy px-6 py-16 text-primary-foreground">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           <div>
@@ -22,22 +22,28 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-display font-semibold mb-4 text-gold">Quick Access</h3>
+            <h3 className="mb-4 font-display font-semibold text-gold">Quick Access</h3>
             <div className="space-y-2">
-              {["Home", "Sponsor", "Achievements", "Map", "3d Visiting"].map((link) => (
+              {[
+                { label: "Home", href: "#home" },
+                { label: "Sponsor", href: "#sponsor" },
+                { label: "Achievements", href: "#achievements" },
+                { label: "Map", href: "#mapview" },
+                { label: "3D Visiting", href: "#partners" },
+              ].map((link) => (
                 <a
-                  key={link}
-                  href="#"
-                  className="block text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors"
+                  key={link.label}
+                  href={link.href}
+                  className="block text-sm text-primary-foreground/60 transition-colors hover:text-primary-foreground"
                 >
-                  {link}
+                  {link.label}
                 </a>
               ))}
             </div>
           </div>
 
-          <div>
-            <h3 className="font-display font-semibold mb-4 text-gold">Contact</h3>
+          <div id="contact">
+            <h3 className="mb-4 font-display font-semibold text-gold">Contact</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-sm text-primary-foreground/60">
                 <MapPin size={16} />

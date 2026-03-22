@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-const heroBackgroundImages = ["/10.jpg", "/9.jpg", "/8.jpg","/7.jpg","/6.jpg","/5.jpg","/4.jpg","/3.jpg","/2.jpg","/1.jpg"];
+const heroBackgroundImages = ["/10.jpg", "/9.jpg", "/8.jpg", "/7.jpg", "/6.jpg", "/5.jpg", "/4.jpg", "/3.jpg", "/2.jpg", "/1.jpg"];
 const HERO_ROTATION_MS = 3000;
 
 const HeroSection = () => {
@@ -56,7 +56,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-hero">
+    <section id="home" className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-hero">
       {/* Animated background elements */}
       <div className="absolute inset-x-4 inset-y-12 sm:inset-x-8 sm:inset-y-14 md:inset-x-12 md:inset-y-[4.5rem] lg:inset-x-16 lg:inset-y-12 rounded-3xl overflow-hidden ring-1 ring-white/10">
         <AnimatePresence mode="sync" initial={false}>
@@ -85,7 +85,7 @@ const HeroSection = () => {
         />
       </div>
 
-      
+
 
       {/* Scroll indicator */}
       <motion.div

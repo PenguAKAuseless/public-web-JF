@@ -1,104 +1,98 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, Search, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { Search } from "lucide-react";
-
-const rightNavBar = [
-    { label: "Support", path: "/#support" },
-    { label: "Help", path: "/#help" },
-];
 
 const leftNavBar = [
-    { label: "Home", path: "/" },
-    { label: "Sponsor", path: "/#sponsor" },
-    { label: "Achievements", path: "/#achievements" },
-    { label: "Map", path: "/#day" },
-    { label: "3d Visiting", path: "/#sponsors" },
+  { label: "Home", hash: "#home" },
+  { label: "Sponsor", hash: "#sponsor" },
+  { label: "Achievements", hash: "#achievements" },
+  { label: "Map", hash: "#mapview" },
+  { label: "3D Visiting", hash: "#partners" },
+];
+
+const rightNavBar = [
+  { label: "Support", hash: "#support" },
+  { label: "Help", hash: "#contact" },
 ];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeHash, setActiveHash] = useState(window.location.hash || "#home");
   const location = useLocation();
+
+  useEffect(() => {
+    const onHashChange = () => {
+      setActiveHash(window.location.hash || "#home");
+    };
+
+    onHashChange();
+    window.addEventListener("hashchange", onHashChange);
+
+    return () => {
+      window.removeEventListener("hashchange", onHashChange);
+    };
+  }, [location.pathname]);
+
+  const navItemClass = (hash: string) =>
+    `px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${activeHash === hash ? "bg-accent text-accent-foreground" : "text-muted-foreground hover:text-foreground hover:bg-muted"
+    }`;
 
   return (
     <motion.nav
       initial={{ y: -80 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-xl border-b border-border"
+      className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-card/80 backdrop-blur-xl"
     >
-      <div className="max-w-7xl mx-auto px- h-10 flex items-center gap-10 justify-left">
-        <Link to="/" className="flex items-center gap-2">
-          <img src="/logo.png" alt="" className="sm:block h-[30px] w-auto" aria-hidden="true" />
-          <span className="font-display font-semibold text-foreground text-sm hidden sm:block">
-            CSE JOB FAIR 2026
-          </span>
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-start gap-6 px-4 sm:px-6">
+        <Link to="/" className="flex items-center gap-2 shrink-0">
+          <img src="/logo.png" alt="CSE logo" className="h-[30px] w-auto sm:block" aria-hidden="true" />
+          <span className="hidden font-display text-sm font-semibold text-foreground sm:block">CSE JOB FAIR 2026</span>
         </Link>
 
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-1 ">
-            
+        <div className="hidden items-center gap-1 md:flex">
           {leftNavBar.map((item) => (
-            <Link
-              key={item.label}
-              to={item.path}
-              className={`px-3 py-1.5 rounded-[10pt] text-sm font-medium transition-all duration-200 ${
-                location.pathname === item.path
-                  ? "bg-accent text-accent-foreground"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
-              }`}
-            >
+            <a key={item.label} href={item.hash} className={navItemClass(item.hash)}>
               {item.label}
-            </Link>
+            </a>
           ))}
         </div>
-        <div className="hidden md:flex items-center gap-1 ml-auto">
-            
-          {rightNavBar.map((item) => (
-            <Link
-              key={item.label}
-              to={item.path}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
-                location.pathname === item.path
-                  ? "bg-accent text-accent-foreground"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
-              }`}
-            >                                                   
-              {item.label}
-            </Link>
-          ))}
-          <Search size={16} className="md:flex text-blue-500" />
-        </div>
-        
 
-        {/* Mobile toggle */}
+        <div className="ml-auto hidden items-center gap-1 md:flex">
+          {rightNavBar.map((item) => (
+            <a key={item.label} href={item.hash} className={navItemClass(item.hash)}>
+              {item.label}
+            </a>
+          ))}
+          <Search size={16} className="text-blue-500" />
+        </div>
+
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors text-foreground"
+          className="ml-auto rounded-lg p-2 text-foreground transition-colors hover:bg-muted md:hidden"
         >
           {isOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
-      {/* Mobile menu */}
       {isOpen && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
-          className="md:hidden bg-card border-b border-border"
+          className="border-b border-border bg-card md:hidden"
         >
-          <div className="px-6 py-4 flex flex-col gap-2">
-            {rightNavBar.map((item) => (
-              <Link
+          <div className="flex flex-col gap-2 px-6 py-4">
+            {[...leftNavBar, ...rightNavBar].map((item) => (
+              <a
                 key={item.label}
-                to={item.path}
+                href={item.hash}
                 onClick={() => setIsOpen(false)}
-                className="px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
+                className={navItemClass(item.hash)}
               >
                 {item.label}
-              </Link>
+              </a>
             ))}
           </div>
         </motion.div>

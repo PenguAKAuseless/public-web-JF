@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import CheckIn from "./checkin/CheckIn";
+import HomePage from "../pages/HomePage";
 
 
 const NotFound = () => (
@@ -14,7 +14,7 @@ const NotFound = () => (
 const App = () => (
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<CheckIn />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>

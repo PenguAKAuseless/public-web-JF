@@ -119,7 +119,7 @@ const AboutSponsor = () => {
   const totalPages = Math.ceil(sponsors.length / perPage);
 
   return (
-    <section id="sponsors" className="py-20 px-6 bg-background my-auto">
+    <section id="partners" className="bg-background px-6 py-20 my-auto">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-12">
           <div>
