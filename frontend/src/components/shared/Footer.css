@@ -8,7 +8,7 @@
 
 .shared-footer__inner {
     display: grid;
-    grid-template-columns: 1.25fr 1fr 1fr;
+    grid-template-columns: 1.25fr 0.75fr 1fr 1fr;
     gap: 1rem;
     width: min(1200px, 92vw);
     margin: 0 auto;
@@ -54,7 +54,7 @@
     margin: 0;
     color: rgba(255, 255, 255, 0.65);
     line-height: 1.55;
-    font-size: 1rem;
+    font-size: 11px;
 }
 
 .shared-footer__heading {
@@ -80,23 +80,22 @@
     color: #ffffff;
 }
 
-.shared-footer__contact-line {
-    margin: 0.3rem 0 0.75rem;
-    color: rgba(255, 255, 255, 0.72);
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
 .shared-footer__mail-group {
     margin-top: 0.6rem;
-    padding-top: 0.55rem;
-    border-top: 1px dashed rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+    font-weight: 400;
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 .shared-footer__mail-title {
     margin: 0;
     color: rgba(255, 255, 255, 0.86);
-    font-size: 0.82rem;
+    font-size: 0.9rem;
+}
+
+a.shared-footer__mail-title {
+    text-decoration: none;
 }
 
 .shared-footer__mail-link {
@@ -105,6 +104,7 @@
     color: #ffd479;
     text-decoration: none;
     font-size: 0.88rem;
+    font-weight: 400;
 }
 
 .shared-footer__mail-link:hover {
@@ -118,6 +118,40 @@
     border-top: 1px solid rgba(255, 255, 255, 0.14);
     color: rgba(255, 255, 255, 0.58);
     font-size: 0.85rem;
+}
+
+.shared-footer__infos {
+    border: 1px solid transparent;
+    border-radius: 16px;
+    background: transparent;
+    padding: 1rem;
+}
+
+.shared-footer__info-time,
+.shared-footer__info-place {
+    margin: 5px 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.shared-footer__info-time-title,
+.shared-footer__info-place-title {
+    margin: 0.3rem 0;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.shared-footer__mail-group-dash {
+    margin-top: 0.6rem;
+    padding-top: 0.55rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+    font-weight: 400;
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 @media (max-width: 900px) {
