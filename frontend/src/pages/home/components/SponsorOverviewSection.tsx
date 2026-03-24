@@ -53,7 +53,7 @@ const SponsorOverviewSection = () => {
 
                             {tier.content === "gold" && (
                                 <div className="home-sponsor-overview__tier-rows">
-                                    <div className="home-sponsor-overview__tier-logos home-sponsor-overview__tier-logos--gold-row">
+                                    <div className="home-sponsor-overview__tier-logos home-sponsor-overview__tier-logos--gold-row-3">
                                         <img src="/FS.png" alt="FPT Software" />
                                         <img src="/SACOM.png" alt="Sacombank" />
                                     </div>
