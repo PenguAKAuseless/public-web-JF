@@ -3,17 +3,42 @@ import "./SponsorOverviewSection.css";
 
 type Tier = {
     name: string;
-    content: "diamond" | "gold" | "silver" | "bronze" | "empty";
+    logos: Array<{ src: string; alt: string }>;
 };
 
-const tiers: Tier[] = [
-    { name: "Kim cương", content: "diamond" },
-    { name: "Vàng", content: "gold" },
-    { name: "Bạc", content: "silver" },
-    { name: "Đồng", content: "bronze" },
-];
-
 const withBase = (assetPath: string) => `${import.meta.env.BASE_URL}${assetPath}`;
+
+const tiers: Tier[] = [
+    {
+        name: "Kim cương",
+        logos: [
+            { src: withBase("VNG.png"), alt: "VNG" },
+            { src: withBase("KMS.png"), alt: "KMS" },
+            { src: withBase("NVIDIA2.png"), alt: "NVIDIA" },
+        ],
+    },
+    {
+        name: "Vàng",
+        logos: [
+            { src: withBase("FS.png"), alt: "FPT Software" },
+            { src: withBase("SACOM.png"), alt: "Sacombank" },
+            { src: withBase("Veri.png"), alt: "Veri Silicon" },
+            { src: withBase("ISB.png"), alt: "ISB" },
+            { src: withBase("Nexon.png"), alt: "Nexon" },
+        ],
+    },
+    {
+        name: "Bạc",
+        logos: [{ src: withBase("GL.png"), alt: "Gameloft" }],
+    },
+    {
+        name: "Đồng",
+        logos: [
+            { src: withBase("FJ.png"), alt: "Fujinet" },
+            { src: withBase("BV.png"), alt: "BV" },
+        ],
+    },
+];
 
 const SponsorOverviewSection = () => {
     return (
@@ -45,42 +70,17 @@ const SponsorOverviewSection = () => {
                             transition={{ duration: 0.55, delay: index * 0.06, ease: [0.2, 0.8, 0.2, 1] }}
                         >
                             <p className="home-sponsor-overview__tier-name">{tier.name}</p>
-                            {tier.content === "diamond" && (
-                                <div className="home-sponsor-overview__tier-logos home-sponsor-overview__tier-logos--diamond">
-                                    <img src={withBase("VNG.png")} alt="VNG" />
-                                    <img src={withBase("KMS.png")} alt="KMS" />
-                                    <img src={withBase("NVIDIA2.png")} alt="NVIDIA" />
+                            {tier.logos.length > 0 ? (
+                                <div className="home-sponsor-overview__tier-logos" aria-label={`Nhà tài trợ hạng ${tier.name}`}>
+                                    {tier.logos.map((logo) => (
+                                        <div key={logo.alt} className="home-sponsor-overview__tier-logo-item">
+                                            <img src={logo.src} alt={logo.alt} />
+                                        </div>
+                                    ))}
                                 </div>
+                            ) : (
+                                <div className="home-sponsor-overview__tier-empty">Đang cập nhật nhà tài trợ</div>
                             )}
-
-                            {tier.content === "gold" && (
-                                <div className="home-sponsor-overview__tier-rows">
-                                    <div className="home-sponsor-overview__tier-logos home-sponsor-overview__tier-logos--gold-row-3">
-                                        <img src={withBase("FS.png")} alt="FPT Software" />
-                                        <img src={withBase("SACOM.png")} alt="Sacombank" />
-                                    </div>
-                                    <div className="home-sponsor-overview__tier-logos home-sponsor-overview__tier-logos--gold-row">
-                                        <img src={withBase("Veri.png")} alt="Veri Silicon" />
-                                        <img src={withBase("ISB.png")} alt="ISB" />
-                                        <img src={withBase("Nexon.png")} alt="Nexon" />
-                                    </div>
-                                </div>
-                            )}
-
-                            {tier.content === "silver" && (
-                                <div className="home-sponsor-overview__tier-logos home-sponsor-overview__tier-logos--silver">
-                                    <img src={withBase("GL.png")} alt="Gameloft" />
-                                </div>
-                            )}
-
-                            {tier.content === "bronze" && (
-                                <div className="home-sponsor-overview__tier-logos home-sponsor-overview__tier-logos--bronze">
-                                    <img src={withBase("FJ.png")} alt="Fujinet" />
-                                    <img src={withBase("BV.png")} alt="BV" />
-                                </div>
-                            )}
-
-                            {tier.content === "empty" && <div className="home-sponsor-overview__tier-empty">Đang cập nhật nhà tài trợ</div>}
                         </motion.div>
                     ))}
                 </div>
