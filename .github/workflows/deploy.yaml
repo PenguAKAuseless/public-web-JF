@@ -23,6 +23,7 @@ jobs:
           cd frontend  # Navigate to your FE directory
           npm install
           npm run build
+          rm -f dist/Map.glb
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
