@@ -25,4 +25,4 @@ jobs:
         with:
           folder: frontend/dist # The folder your build tool generates (dist, build, etc.)
           branch: gh-pages # The branch the action will create/update
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
