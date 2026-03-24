@@ -9,7 +9,7 @@ import "./HomePage.css";
 
 const VenueMapSection = lazy(() => import("./components/VenueMapSection"));
 const MAP_MODEL_URL = import.meta.env.PROD
-    ? "https://github.com/PenguAKAuseless/public-web-JF/raw/main/frontend/public/Map.glb"
+    ? "https://media.githubusercontent.com/media/PenguAKAuseless/public-web-JF/main/frontend/public/Map.glb"
     : `${import.meta.env.BASE_URL}Map.glb`;
 
 const HomePage = () => {
