@@ -92,23 +92,16 @@ const SeminarsPage = () => {
                 <section className="seminars-page__section">
                     <div className="seminars-page__container">
                         <h1 className="seminars-page__title">Seminars</h1>
-                        <p className="seminars-page__intro">
-                            Thông tin về Chuỗi hội thảo công nghệ và định hướng việc làm cho sinh viên.
-                        </p>
-                        <p className="seminars-page__intro seminars-page__intro--location">
-                            Địa điểm: {seminarVenue}
-                        </p>
 
                         <div className="seminars-page__grid">
                             {seminars.map((seminar) => (
                                 <article key={seminar.id} className="seminars-page__card">
                                     <img className="seminars-page__image" src={withBase(seminar.heroImage)} alt={`Ảnh seminar ${seminar.company}`} />
                                     <h2>{seminar.title}</h2>
-                                    <p className="seminars-page__meta">{seminar.period}</p>
                                     <p className="seminars-page__meta">Đơn vị: {seminar.company}</p>
-                                    <p className="seminars-page__summary">{seminar.description}</p>
+                                    <p className="seminars-page__meta">{seminar.period}</p>
                                     <button type="button" onClick={() => setSelectedSeminar(seminar)}>
-                                        Xem chi tiết
+                                        XEM CHI TIẾT
                                     </button>
                                 </article>
                             ))}
@@ -132,10 +125,11 @@ const SeminarsPage = () => {
 
                         <img className="seminars-page__modal-image" src={withBase(selectedSeminar.heroImage)} alt={`Ảnh seminar ${selectedSeminar.company}`} />
                         <h3>{selectedSeminar.title}</h3>
-                        <p>{selectedSeminar.period}</p>
                         <p>Đơn vị: {selectedSeminar.company}</p>
-                        <p>{selectedSeminar.description}</p>
+                        <p>{selectedSeminar.period}</p>
                         <p>Địa điểm: {seminarVenue}</p>
+                        <p>{selectedSeminar.description}</p>
+                        <p>Một số hình ảnh từ sự kiện:</p>
 
                         <div className="seminars-page__sub-gallery">
                             {selectedSeminar.subImages.map((image, index) => (

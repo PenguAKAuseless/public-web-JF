@@ -7,6 +7,7 @@ import "./SponsorDetailSection.css";
 const withBase = (assetPath: string) => `${import.meta.env.BASE_URL}${assetPath}`;
 
 const AUTO_SCROLL_MS = 5000;
+const INTERACTION_SCROLL_MS = 15000;
 
 const toPreviewText = (input: string, maxLen = 110) => {
     const compact = input.replace(/\s+/g, " ").trim();
@@ -38,6 +39,13 @@ const SponsorDetailSection = () => {
     const [page, setPage] = useState(0);
     const [perPage, setPerPage] = useState(getPerPage);
     const [isCarouselPaused, setIsCarouselPaused] = useState(false);
+    const [useSlowScroll, setUseSlowScroll] = useState(false);
+    const [interactionTick, setInteractionTick] = useState(0);
+
+    const resetAutoScrollDelay = () => {
+        setUseSlowScroll(true);
+        setInteractionTick((prev) => prev + 1);
+    };
 
     const visiblePartners = useMemo(() => partners.filter((partner) => partner.logoFile.trim().length > 0), []);
     const pageCount = Math.max(1, Math.ceil(visiblePartners.length / perPage));
@@ -61,12 +69,16 @@ const SponsorDetailSection = () => {
             return;
         }
 
-        const timer = window.setInterval(() => {
+        const delay = useSlowScroll ? INTERACTION_SCROLL_MS : AUTO_SCROLL_MS;
+        const timer = window.setTimeout(() => {
             setPage((prev) => (prev + 1) % pageCount);
-        }, AUTO_SCROLL_MS);
+            if (useSlowScroll) {
+                setUseSlowScroll(false);
+            }
+        }, delay);
 
-        return () => window.clearInterval(timer);
-    }, [isCarouselPaused, pageCount, selectedPartner]);
+        return () => window.clearTimeout(timer);
+    }, [interactionTick, isCarouselPaused, pageCount, selectedPartner, useSlowScroll]);
 
     useEffect(() => {
         if (!selectedPartner) {
@@ -96,11 +108,25 @@ const SponsorDetailSection = () => {
                 <div className="home-sponsor-detail__header">
                     <h2>Các doanh nghiệp đồng hành cùng CSE Job Fair 2026</h2>
                     <div className="home-sponsor-detail__pager" aria-label="Điều hướng đối tác đồng hành">
-                        <button type="button" onClick={() => setPage((prev) => (prev - 1 + pageCount) % pageCount)} disabled={pageCount <= 1}>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                resetAutoScrollDelay();
+                                setPage((prev) => (prev - 1 + pageCount) % pageCount);
+                            }}
+                            disabled={pageCount <= 1}
+                        >
                             <ChevronLeft size={16} />
                         </button>
                         <p>{`${normalizedPage + 1}/${pageCount}`}</p>
-                        <button type="button" onClick={() => setPage((prev) => (prev + 1) % pageCount)} disabled={pageCount <= 1}>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                resetAutoScrollDelay();
+                                setPage((prev) => (prev + 1) % pageCount);
+                            }}
+                            disabled={pageCount <= 1}
+                        >
                             <ChevronRight size={16} />
                         </button>
                     </div>
@@ -114,6 +140,7 @@ const SponsorDetailSection = () => {
                     transition={{ duration: 0.24, ease: [0.2, 0.8, 0.2, 1] }}
                     onMouseEnter={() => setIsCarouselPaused(true)}
                     onMouseLeave={() => setIsCarouselPaused(false)}
+                    onClickCapture={resetAutoScrollDelay}
                     onFocusCapture={() => setIsCarouselPaused(true)}
                     onBlurCapture={(event) => {
                         const nextTarget = event.relatedTarget;
@@ -171,7 +198,10 @@ const SponsorDetailSection = () => {
                                 role="tab"
                                 aria-selected={normalizedPage === dotIndex}
                                 className={normalizedPage === dotIndex ? "is-active" : ""}
-                                onClick={() => setPage(dotIndex)}
+                                onClick={() => {
+                                    resetAutoScrollDelay();
+                                    setPage(dotIndex);
+                                }}
                             />
                         ))}
                     </div>
