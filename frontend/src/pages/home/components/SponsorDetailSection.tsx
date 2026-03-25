@@ -20,18 +20,18 @@ const toPreviewText = (input: string, maxLen = 110) => {
 
 const getPerPage = () => {
     if (typeof window === "undefined") {
-        return 4;
+        return 6;
     }
 
     if (window.innerWidth < 680) {
-        return 1;
+        return 2;
     }
 
     if (window.innerWidth < 1080) {
-        return 3;
+        return 4;
     }
 
-    return 4;
+    return 6;
 };
 
 const SponsorDetailSection = () => {

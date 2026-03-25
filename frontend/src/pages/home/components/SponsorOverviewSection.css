@@ -1,5 +1,5 @@
 .home-sponsor-overview {
-    padding: 1.2rem 0;
+    padding: 1.rem 0;
     min-height: calc(100dvh - var(--navbar-height));
     display: grid;
     align-items: start;
@@ -7,10 +7,11 @@
 }
 
 .home-sponsor-overview__container {
-    width: min(1200px, 92vw);
+    width: min(1257px, 92vw);
     margin: 0 auto;
     display: grid;
-    gap: clamp(0.9rem, 2vw, 1.35rem);
+    align-content: start;
+    gap: clamp(0.9rem, 1vw, 1.35rem);
 }
 
 .home-sponsor-overview__intro {
@@ -62,7 +63,7 @@
 }
 
 .home-sponsor-overview__tier-name {
-    margin: 0;
+    margin: 7;
     text-align: center;
     color: #9f7520;
     font-weight: 700;
@@ -80,19 +81,19 @@
 }
 
 .home-sponsor-overview__tier-logos {
-    --logo-gap: clamp(0.7rem, 1.4vw, 1rem);
+    --logo-gap: clamp(0.3rem, 1.4vw, 1rem);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-content: start;
+    align-content: center;
     gap: var(--logo-gap);
     width: 100%;
 }
 
 .home-sponsor-overview__tier-logo-item {
-    flex: 0 1 calc((100% - (var(--logo-gap) * 2)) / 3);
+    flex: 0 1 calc((100% - (var(--logo-gap) * 2)) / 2);
     min-width: min(170px, 100%);
-    max-width: 240px;
+    max-width: 190px;
     min-height: 88px;
     position: relative;
     display: grid;
