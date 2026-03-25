@@ -96,12 +96,16 @@
     min-height: 96px;
     border-radius: 12px;
     background: #f7f9fd;
+    overflow: hidden;
 }
 
 .home-partners__logo-wrap img {
+    --partner-logo-scale: 1;
     max-width: 78%;
     max-height: 84px;
     object-fit: contain;
+    transform: scale(var(--partner-logo-scale));
+    transform-origin: center;
 }
 
 .home-partners__company-name {

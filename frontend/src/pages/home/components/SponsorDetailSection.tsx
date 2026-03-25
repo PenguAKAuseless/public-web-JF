@@ -13,6 +13,29 @@ const PARTNER_CARD_MIN_WIDTH = 230;
 const PARTNER_GRID_GAP = 18.4;
 const PARTNER_GRID_CONTAINER_RATIO = 0.92;
 const MAX_CARDS_PER_ROW = 5;
+const TARGET_LOGO_FILL_RATIO = 0.9;
+const MAX_AUTO_LOGO_SCALE = 1.42;
+const MAX_FINAL_LOGO_SCALE = 2.2;
+
+const partnerLogoScaleByFile: Record<string, number> = {
+    "FPT.png": 1.36,
+    "KMS.png": 1.2,
+    "SACOM.png": 1.2,
+    "CMC-GLOBAL.png": 1.5,
+    "AXON.png": 1.3,
+    "BOSCH.png": 1.16,
+    "CAKE.png": 1.7,
+    "GIHOT.png": 1.6,
+    "IVC.png": 1.04,
+    "IVS.png": 2,
+    "NASHTECH.png": 1.42,
+    "PSD.png": 1.1,
+    "SVC.png": 2,
+    "ZIGEXN.png": 1.6,
+    "FPT-EDUCATION.png": 1.2,
+    "EAST-AGILE.png": 1.14,
+    "TECALLIANCE.png": 1.2,
+};
 
 const toPreviewText = (input: string, maxLen = 110) => {
     const compact = input.replace(/\s+/g, " ").trim();
@@ -37,6 +60,71 @@ const getCardsPerRow = () => {
     return Math.max(1, Math.min(MAX_CARDS_PER_ROW, rowCapacity));
 };
 
+const getAutoLogoScaleFromBounds = (logoSrc: string) =>
+    new Promise<number>((resolve) => {
+        const image = new Image();
+
+        image.onload = () => {
+            const width = image.naturalWidth;
+            const height = image.naturalHeight;
+
+            if (width <= 0 || height <= 0) {
+                resolve(1);
+                return;
+            }
+
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext("2d", { willReadFrequently: true });
+            if (!ctx) {
+                resolve(1);
+                return;
+            }
+
+            ctx.drawImage(image, 0, 0);
+
+            const pixels = ctx.getImageData(0, 0, width, height).data;
+            let minX = width;
+            let minY = height;
+            let maxX = -1;
+            let maxY = -1;
+
+            for (let y = 0; y < height; y += 1) {
+                for (let x = 0; x < width; x += 1) {
+                    const alpha = pixels[(y * width + x) * 4 + 3];
+                    if (alpha > 10) {
+                        if (x < minX) minX = x;
+                        if (y < minY) minY = y;
+                        if (x > maxX) maxX = x;
+                        if (y > maxY) maxY = y;
+                    }
+                }
+            }
+
+            if (maxX < minX || maxY < minY) {
+                resolve(1);
+                return;
+            }
+
+            const visibleWidthRatio = (maxX - minX + 1) / width;
+            const visibleHeightRatio = (maxY - minY + 1) / height;
+            const dominantRatio = Math.max(visibleWidthRatio, visibleHeightRatio);
+
+            if (!Number.isFinite(dominantRatio) || dominantRatio <= 0) {
+                resolve(1);
+                return;
+            }
+
+            const suggestedScale = TARGET_LOGO_FILL_RATIO / dominantRatio;
+            resolve(Math.max(1, Math.min(MAX_AUTO_LOGO_SCALE, suggestedScale)));
+        };
+
+        image.onerror = () => resolve(1);
+        image.src = logoSrc;
+    });
+
 const SponsorDetailSection = () => {
     const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
     const [page, setPage] = useState(0);
@@ -44,6 +132,7 @@ const SponsorDetailSection = () => {
     const [isCarouselPaused, setIsCarouselPaused] = useState(false);
     const [useSlowScroll, setUseSlowScroll] = useState(false);
     const [interactionTick, setInteractionTick] = useState(0);
+    const [autoLogoScaleByFile, setAutoLogoScaleByFile] = useState<Record<string, number>>({});
 
     const resetAutoScrollDelay = () => {
         setUseSlowScroll(true);
@@ -68,6 +157,44 @@ const SponsorDetailSection = () => {
         window.addEventListener("resize", onResize);
         return () => window.removeEventListener("resize", onResize);
     }, []);
+
+    useEffect(() => {
+        const uniqueLogoFiles = Array.from(new Set(visiblePartners.map((partner) => partner.logoFile)));
+        const pendingFiles = uniqueLogoFiles.filter((logoFile) => autoLogoScaleByFile[logoFile] === undefined);
+
+        if (pendingFiles.length === 0) {
+            return;
+        }
+
+        let cancelled = false;
+
+        const measureAll = async () => {
+            const measured = await Promise.all(
+                pendingFiles.map(async (logoFile) => {
+                    const autoScale = await getAutoLogoScaleFromBounds(withBase(logoFile));
+                    return [logoFile, autoScale] as const;
+                }),
+            );
+
+            if (cancelled) {
+                return;
+            }
+
+            setAutoLogoScaleByFile((prev) => {
+                const next = { ...prev };
+                measured.forEach(([logoFile, autoScale]) => {
+                    next[logoFile] = autoScale;
+                });
+                return next;
+            });
+        };
+
+        void measureAll();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [autoLogoScaleByFile, visiblePartners]);
 
     useEffect(() => {
         if (pageCount <= 1 || selectedPartner || isCarouselPaused) {
@@ -166,7 +293,19 @@ const SponsorDetailSection = () => {
                             transition={{ delay: index * 0.05 }}
                         >
                             <div className="home-partners__logo-wrap">
-                                <img src={withBase(partner.logoFile)} alt={partner.name} loading="lazy" />
+                                <img
+                                    src={withBase(partner.logoFile)}
+                                    alt={partner.name}
+                                    loading="lazy"
+                                    style={
+                                        {
+                                            "--partner-logo-scale": Math.min(
+                                                MAX_FINAL_LOGO_SCALE,
+                                                (partnerLogoScaleByFile[partner.logoFile] ?? 1) * (autoLogoScaleByFile[partner.logoFile] ?? 1),
+                                            ),
+                                        } as CSSProperties
+                                    }
+                                />
                             </div>
                             <h3 className="home-partners__company-name">{partner.name}</h3>
                             <p>{toPreviewText(partner.description, 130)}</p>

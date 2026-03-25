@@ -6,7 +6,7 @@
 }
 
 .home-sponsor-overview__container {
-    width: min(1257px, 92vw);
+    width: min(1200px, 92vw);
     margin: 0 auto;
     display: grid;
     align-content: start;
@@ -87,6 +87,7 @@
     align-content: center;
     gap: var(--logo-gap);
     width: 100%;
+    overflow: hidden;
 }
 
 .home-sponsor-overview__tier-logo-item {
@@ -98,6 +99,26 @@
     display: grid;
     place-items: center;
     padding: 0.5rem 0.75rem;
+}
+
+.home-sponsor-overview__tier--diamond .home-sponsor-overview__tier-logo-item {
+    max-width: 230px;
+    min-height: 104px;
+}
+
+.home-sponsor-overview__tier--gold .home-sponsor-overview__tier-logo-item {
+    max-width: 212px;
+    min-height: 96px;
+}
+
+.home-sponsor-overview__tier--silver .home-sponsor-overview__tier-logo-item {
+    max-width: 198px;
+    min-height: 90px;
+}
+
+.home-sponsor-overview__tier--bronze .home-sponsor-overview__tier-logo-item {
+    max-width: 186px;
+    min-height: 86px;
 }
 
 .home-sponsor-overview__logo-spot-name {
@@ -123,10 +144,29 @@
 }
 
 .home-sponsor-overview__tier-logos img {
+    --logo-scale: 1;
     width: min(100%, 190px);
     max-height: 72px;
     justify-self: center;
     object-fit: contain;
+    transform: scale(var(--logo-scale));
+    transform-origin: center;
+}
+
+.home-sponsor-overview__tier--diamond .home-sponsor-overview__tier-logos img {
+    max-height: 82px;
+}
+
+.home-sponsor-overview__tier--gold .home-sponsor-overview__tier-logos img {
+    max-height: 76px;
+}
+
+.home-sponsor-overview__tier--silver .home-sponsor-overview__tier-logos img {
+    max-height: 70px;
+}
+
+.home-sponsor-overview__tier--bronze .home-sponsor-overview__tier-logos img {
+    max-height: 66px;
 }
 
 .home-sponsor-overview__tier-empty {

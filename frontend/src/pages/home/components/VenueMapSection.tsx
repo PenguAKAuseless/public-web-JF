@@ -95,7 +95,8 @@ const VenueMapSection = ({ modelUrl, is3dReady, is3dFailed, retryLabel }: VenueM
     const [mapMode, setMapMode] = useState<"2d" | "3d">("2d");
     const controlsRef = useRef<OrbitControlsImpl | null>(null);
     const staticMapUrl = `${import.meta.env.BASE_URL}Map2D.png`;
-    const effectiveMode: "2d" | "3d" = mapMode === "3d" && is3dFailed ? "2d" : mapMode;
+    const canUse3d = !is3dFailed;
+    const effectiveMode: "2d" | "3d" = mapMode === "3d" && !canUse3d ? "2d" : mapMode;
 
     const onFitCamera = (view: { position: THREE.Vector3; target: THREE.Vector3 }) => {
         if (!controlsRef.current) {
@@ -114,38 +115,37 @@ const VenueMapSection = ({ modelUrl, is3dReady, is3dFailed, retryLabel }: VenueM
                 <h2 className="home-map__title">Bản đồ khu vực sự kiện</h2>
                 <p className="home-map__intro">Quan sát bố cục khu vực sự kiện để định hướng vị trí nhanh hơn trước khi tham gia ngày hội.</p>
 
-                <div className="home-map__mode-switch" role="tablist" aria-label="Chuyển chế độ bản đồ">
-                    <button
-                        type="button"
-                        role="tab"
-                        aria-selected={effectiveMode === "2d"}
-                        className={`home-map__mode-btn ${effectiveMode === "2d" ? "is-active" : ""}`}
-                        onClick={() => setMapMode("2d")}
-                    >
-                        2D
-                    </button>
-                    <button
-                        type="button"
-                        role="tab"
-                        aria-selected={effectiveMode === "3d"}
-                        className={`home-map__mode-btn ${effectiveMode === "3d" ? "is-active" : ""}`}
-                        onClick={() => setMapMode("3d")}
-                        disabled={is3dFailed}
-                        title={is3dFailed ? "Bản đồ 3D hiện không khả dụng" : undefined}
-                    >
-                        3D
-                    </button>
-                </div>
-
                 <div
                     className="home-map__viewer"
                     onPointerEnter={() => setIsHovered(true)}
                     onPointerLeave={() => setIsHovered(false)}
                 >
-                    {effectiveMode === "2d" ? (
+                    <button
+                        type="button"
+                        role="switch"
+                        aria-label="Chuyển giữa bản đồ 2D và 3D"
+                        aria-checked={effectiveMode === "3d"}
+                        className={`home-map__switch ${effectiveMode === "3d" ? "is-3d" : ""}`}
+                        onClick={() => {
+                            if (!canUse3d) {
+                                return;
+                            }
+                            setMapMode((prev) => (prev === "2d" ? "3d" : "2d"));
+                        }}
+                        disabled={!canUse3d}
+                        title={!canUse3d ? "Bản đồ 3D hiện không khả dụng" : "Chuyển chế độ bản đồ"}
+                    >
+                        <span className="home-map__switch-label home-map__switch-label--2d">2D</span>
+                        <span className="home-map__switch-label home-map__switch-label--3d">3D</span>
+                        <span className="home-map__switch-thumb" aria-hidden="true" />
+                    </button>
+
+                    <div className={`home-map__layer home-map__layer--2d ${effectiveMode === "2d" ? "is-active" : ""}`}>
                         <img className="home-map__image" src={staticMapUrl} alt="Bản đồ 2D khu vực sự kiện" loading="lazy" />
-                    ) : is3dReady ? (
-                        <>
+                    </div>
+
+                    <div className={`home-map__layer home-map__layer--3d ${effectiveMode === "3d" && is3dReady ? "is-active" : ""}`}>
+                        {is3dReady && (
                             <Canvas camera={{ position: [0, 0, 5], fov: 45 }} dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
                                 <ambientLight intensity={0.6} />
                                 <directionalLight position={[5, 5, 5]} intensity={1} />
@@ -171,9 +171,10 @@ const VenueMapSection = ({ modelUrl, is3dReady, is3dFailed, retryLabel }: VenueM
                                     makeDefault
                                 />
                             </Canvas>
-                            <div className="home-map__hint">Di chuột để xoay - Cuộn để thu phóng - Kéo để quan sát</div>
-                        </>
-                    ) : (
+                        )}
+                    </div>
+
+                    {effectiveMode === "3d" && !is3dReady && (
                         <div className="home-map__status" role="status" aria-live="polite">
                             <p>
                                 {is3dFailed
@@ -181,6 +182,10 @@ const VenueMapSection = ({ modelUrl, is3dReady, is3dFailed, retryLabel }: VenueM
                                     : `Đang kiểm tra nguồn mô hình 3D${retryLabel ? ` (${retryLabel})` : ""}...`}
                             </p>
                         </div>
+                    )}
+
+                    {effectiveMode === "3d" && is3dReady && (
+                        <div className="home-map__hint">Di chuột để xoay - Cuộn để thu phóng - Kéo để quan sát</div>
                     )}
                 </div>
             </div>

@@ -6,7 +6,8 @@ import "./SeminarsPage.css";
 
 type Seminar = {
     id: number;
-    period: string;
+    session: string;
+    date: string;
     company: string;
     title: string;
     description: string;
@@ -20,8 +21,9 @@ const withBase = (assetPath: string) => `${import.meta.env.BASE_URL}${assetPath}
 const seminars: Seminar[] = [
     {
         id: 1,
-        period: "Sáng 21/03",
-        company: "ANDPAD",
+        session: "Buổi sáng",
+        date: "21/03/2026",
+        company: "Công ty TNHH ANDPAD Việt Nam",
         title: "From Fresher to Global Engineer: Career Opportunities at ANDPAD",
         description:
             "Phiên hội thảo công nghệ và định hướng việc làm dành cho sinh viên, tập trung vào hành trình phát triển nghề nghiệp từ fresher đến kỹ sư toàn cầu.",
@@ -30,8 +32,9 @@ const seminars: Seminar[] = [
     },
     {
         id: 2,
-        period: "Chiều 21/03",
-        company: "IVC",
+        session: "Buổi chiều",
+        date: "21/03/2026",
+        company: "Công ty TNHH ISB Việt Nam (IVC)",
         title: "Hành trình từ sinh viên đến lập trình viên: Kinh nghiệm, thử thách và bài học thực tế",
         description:
             "Phiên chia sẻ về kinh nghiệm thực tế trong quá trình chuyển mình từ sinh viên sang lập trình viên chuyên nghiệp.",
@@ -40,8 +43,9 @@ const seminars: Seminar[] = [
     },
     {
         id: 3,
-        period: "Sáng 22/03",
-        company: "WorldQuant",
+        session: "Buổi sáng",
+        date: "22/03/2026",
+        company: "Công ty TNHH phần mềm đầu tư WorldQuant Việt Nam",
         title: "Các cơ hội trong ngành Tài chính Định lượng cùng WorldQuant",
         description:
             "Phiên giới thiệu các cơ hội học tập và nghề nghiệp trong lĩnh vực tài chính định lượng cùng WorldQuant.",
@@ -50,8 +54,9 @@ const seminars: Seminar[] = [
     },
     {
         id: 4,
-        period: "Chiều 22/03",
-        company: "TC DATA",
+        session: "Buổi chiều",
+        date: "22/03/2026",
+        company: "Công ty TNHH TC Data",
         title: "Hội thảo công nghệ và định hướng việc làm cho sinh viên",
         description:
             "Phiên hội thảo với trọng tâm định hướng nghề nghiệp và cập nhật bức tranh công nghệ dành cho sinh viên.",
@@ -99,7 +104,7 @@ const SeminarsPage = () => {
                                     <img className="seminars-page__image" src={withBase(seminar.heroImage)} alt={`Ảnh seminar ${seminar.company}`} />
                                     <h2>{seminar.title}</h2>
                                     <p className="seminars-page__meta">Đơn vị: {seminar.company}</p>
-                                    <p className="seminars-page__meta">{seminar.period}</p>
+                                    <p className="seminars-page__meta">{seminar.session} - {seminar.date}</p>
                                     <button type="button" onClick={() => setSelectedSeminar(seminar)}>
                                         XEM CHI TIẾT
                                     </button>
@@ -126,7 +131,7 @@ const SeminarsPage = () => {
                         <img className="seminars-page__modal-image" src={withBase(selectedSeminar.heroImage)} alt={`Ảnh seminar ${selectedSeminar.company}`} />
                         <h3>{selectedSeminar.title}</h3>
                         <p>Đơn vị: {selectedSeminar.company}</p>
-                        <p>{selectedSeminar.period}</p>
+                        <p>{selectedSeminar.session} - {selectedSeminar.date}</p>
                         <p>Địa điểm: {seminarVenue}</p>
                         <p>{selectedSeminar.description}</p>
                         <p>Một số hình ảnh từ sự kiện:</p>

@@ -2,14 +2,25 @@ import { motion } from "framer-motion";
 import "./SponsorOverviewSection.css";
 
 type Tier = {
+    key: "diamond" | "gold" | "silver" | "bronze";
     name: string;
     logos: Array<{ src: string; alt: string }>;
+};
+
+const tierLogoScaleByAlt: Record<string, number> = {
+    KMS: 1.4,
+    NVIDIA: 1.4,
+    "FPT Software": 1.6,
+    Sacombank: 1.2,
+    Gameloft: 1.3,
+    "Bản Viên": 1.2,
 };
 
 const withBase = (assetPath: string) => `${import.meta.env.BASE_URL}${assetPath}`;
 
 const tiers: Tier[] = [
     {
+        key: "diamond",
         name: "Kim cương",
         logos: [
             { src: withBase("VNG.png"), alt: "VNG" },
@@ -18,6 +29,7 @@ const tiers: Tier[] = [
         ],
     },
     {
+        key: "gold",
         name: "Vàng",
         logos: [
             { src: withBase("FPT.png"), alt: "FPT Software" },
@@ -28,14 +40,16 @@ const tiers: Tier[] = [
         ],
     },
     {
+        key: "silver",
         name: "Bạc",
         logos: [{ src: withBase("GL.png"), alt: "Gameloft" }],
     },
     {
+        key: "bronze",
         name: "Đồng",
         logos: [
             { src: withBase("FJ.png"), alt: "Fujinet" },
-            { src: withBase("BV.png"), alt: "BV" },
+            { src: withBase("BV.png"), alt: "Bản Viên" },
         ],
     },
 ];
@@ -65,7 +79,7 @@ const SponsorOverviewSection = () => {
                     {tiers.map((tier, index) => (
                         <motion.div
                             key={tier.name}
-                            className="home-sponsor-overview__tier"
+                            className={`home-sponsor-overview__tier home-sponsor-overview__tier--${tier.key}`}
                             initial={{ opacity: 0, y: 28 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, amount: 0.22 }}
@@ -76,7 +90,7 @@ const SponsorOverviewSection = () => {
                                 <div className="home-sponsor-overview__tier-logos" aria-label={`Nhà tài trợ hạng ${tier.name}`}>
                                     {tier.logos.map((logo) => (
                                         <div key={logo.alt} className="home-sponsor-overview__tier-logo-item">
-                                            <img src={logo.src} alt={logo.alt} />
+                                            <img src={logo.src} alt={logo.alt} style={{ "--logo-scale": tierLogoScaleByAlt[logo.alt] ?? 1 } as React.CSSProperties} />
                                             <span className="home-sponsor-overview__logo-spot-name">{logo.alt}</span>
                                         </div>
                                     ))}

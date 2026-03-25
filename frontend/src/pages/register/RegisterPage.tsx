@@ -16,7 +16,7 @@ const registerOptions: RegisterOption[] = [
     {
         key: "bk",
         title: "Dành cho sinh viên Bách khoa",
-        description: "Đăng ký tham gia CSE Job Fair 2026 (BK)",
+        description: "Đăng ký tham gia CSE Job Fair 2026 (Bách khoa)",
         formUrl: "https://forms.gle/k4gBCc76BXHQov6A9",
         backgroundImage: heroLeft,
     },
@@ -30,7 +30,7 @@ const registerOptions: RegisterOption[] = [
     {
         key: "cv",
         title: "CV Clinic 2026",
-        description: "Tư vấn CV 1 - 1 từ chuyên gia tuyển dụng, phỏng vấn nhanh với những doanh nghiệp hàng đầu",
+        description: "Tư vấn CV 1 - 1 từ chuyên gia tuyển dụng, phỏng vấn nhanh với doanh nghiệp hàng đầu",
         formUrl: "https://forms.gle/pCxy3QuDaxD9Wzme8",
         backgroundImage: heroLeft,
     },

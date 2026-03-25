@@ -217,7 +217,7 @@ export const partners: Partner[] = [
     {
         id: 16,
         name: "C\u00F4ng ty TNHH NEC Vi\u1EC7t Nam",
-        logoFile: "NEC.png",
+        logoFile: "NECVN.png",
         description: "Th\u00F4ng tin chi ti\u1EBFt \u0111ang \u0111\u01B0\u1EE3c c\u1EADp nh\u1EADt.",
         websiteUrl: "https://vn.nec.com/",
         recruitmentNews: [
