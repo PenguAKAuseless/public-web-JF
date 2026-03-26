@@ -37,6 +37,7 @@ const tiers: Tier[] = [
             { src: withBase("Veri.png"), alt: "Veri Silicon" },
             { src: withBase("IVC.png"), alt: "IVC" },
             { src: withBase("Nexon.png"), alt: "Nexon" },
+            { src: withBase("SACOM.png"), alt: "Sacombank" },
         ],
     },
     {
@@ -67,7 +68,7 @@ const SponsorOverviewSection = () => {
                     <div className="home-sponsor-overview__intro-copy">
                         <h2 className="home-sponsor-overview__title">Chào mừng bạn đến với Ngày hội Việc làm - CSE JOB FAIR 2026</h2>
                         <p className="home-sponsor-overview__desc">
-                            Sự kiện thường niên do khoa Khoa học và Kỹ thuật Máy tính, trường Đại học Bách khoa - ĐHQG-HCM tổ chức nhằm kết nối sinh viên với các doanh nghiệp hàng đầu trong lĩnh vực công nghệ. CSE Job Fair 2026 hứa hẹn mang đến một ngày hội việc làm sôi động với sự tham gia của nhiều nhà tuyển dụng uy tín, cơ hội thực tập và việc làm hấp dẫn, cùng nhiều hoạt động thú vị khác. 
+                            Sự kiện thường niên do khoa Khoa học và Kỹ thuật Máy tính, trường Đại học Bách khoa - ĐHQG-HCM tổ chức nhằm kết nối sinh viên với các doanh nghiệp hàng đầu trong lĩnh vực công nghệ. CSE Job Fair 2026 hứa hẹn mang đến một ngày hội việc làm sôi động với sự tham gia của nhiều nhà tuyển dụng uy tín, cơ hội thực tập và việc làm hấp dẫn, cùng nhiều hoạt động thú vị khác.
                             Hãy cùng khám phá và tận dụng cơ hội để định hướng tương lai nghề nghiệp của bạn tại CSE Job Fair 2026!
                         </p>
                     </div>

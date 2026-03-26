@@ -36,7 +36,7 @@ const Footer = () => {
                 <div className="shared-footer__infos">
                     <p className="shared-footer__heading">THÔNG TIN SỰ KIỆN</p>
                     <p className="shared-footer__info-time-title">Khai mạc</p>
-                    <p className="shared-footer__info-time">7g30, ngày 28/03/2026</p>
+                    <p className="shared-footer__info-time">07g30, ngày 28/03/2026</p>
                     <p className="shared-footer__info-place-title">Địa điểm</p>
                     <p className="shared-footer__info-place">
                         Sân BK.B6, Trường Đại học Bách khoa - ĐHQG-HCM, cơ sở 2
